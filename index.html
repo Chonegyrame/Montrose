@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI-Driven Marketing Stack: Montrose</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #0e0609;
+      --navy-mid:  #1a0c10;
+      --navy-soft: #2a1018;
+      --accent:    #f0a8b4;
+      --accent-lt: #2a0f18;
+      --text:      #f0e8ea;
+      --muted:     #9a8085;
+      --border:    #331520;
+      --bg:        #0e0609;
+      --bg-off:    #170b0f;
+      --code-bg:   #1e0e14;
+      --tag-bg:    #2a0f18;
+      --tag-text:  #f0a8b4;
+      --pink:      #f0a8b4;
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ────────────────────────────────────────────── */
+    .page-wrap { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ── Cover ─────────────────────────────────────────────── */
+    .cover {
+      background: linear-gradient(135deg, #0e0609 0%, #1a0c10 60%, #2a1018 100%);
+      color: #fff;
+      padding: 5rem 2rem 4rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cover-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 240px 1fr 240px;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .cover-center { display: flex; flex-direction: column; }
+    .cover-card-left,
+    .cover-card-right { align-self: stretch; }
+    .cover-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 1.25rem;
+    }
+    .cover h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .cover-sub {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.72);
+      font-weight: 400;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .cover-meta {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.15);
+    }
+    .cover-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+    .cover-meta-item strong { display: block; color: rgba(255,255,255,0.85); font-size: 0.9rem; margin-bottom: 0.15rem; }
+
+    /* ── Table of Contents ─────────────────────────────────── */
+    .toc {
+      background: var(--bg-off);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--pink);
+      border-radius: 6px;
+      padding: 1.5rem 1.75rem;
+      margin: 0 auto 3rem;
+      max-width: 860px;
+    }
+    .toc-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+    .toc ol { padding-left: 1.2rem; }
+    .toc li { margin-bottom: 0.3rem; }
+    .toc a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+    .toc a:hover { color: var(--pink); text-decoration: underline; }
+
+    /* ── Main Content ──────────────────────────────────────── */
+    .content { max-width: 860px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+    .section { margin-bottom: 3.5rem; }
+
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--pink);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 2px solid var(--border);
+    }
+    h2 .section-num {
+      color: var(--pink);
+      opacity: 0.6;
+      margin-right: 0.5rem;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--pink);
+      margin-top: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    p { margin-bottom: 1rem; font-size: 0.97rem; }
+
+    strong { font-weight: 600; color: var(--pink); }
+
+    /* ── Callout / Pull Quote ──────────────────────────────── */
+    .callout {
+      background: var(--accent-lt);
+      border-left: 4px solid var(--pink);
+      border-radius: 0 6px 6px 0;
+      padding: 1.1rem 1.4rem;
+      margin: 1.5rem 0;
+      font-size: 0.97rem;
+      font-style: italic;
+      color: var(--pink);
+      font-weight: 500;
+    }
+
+    /* ── Tables ────────────────────────────────────────────── */
+    .table-wrap { overflow-x: auto; margin: 1.25rem 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    thead tr { background: #2a1018; color: var(--pink); }
+    thead th {
+      padding: 0.7rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+    tbody tr:nth-child(even) { background: var(--bg-off); }
+    tbody tr:hover { background: #2a0f18; }
+    tbody td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tbody td:first-child { font-weight: 500; color: var(--pink); white-space: nowrap; }
+
+    /* ── Agent Cards ───────────────────────────────────────── */
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+    .agent-card {
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--pink);
+      border-radius: 8px;
+      padding: 1.2rem 1.3rem;
+      background: var(--bg-off);
+    }
+    .agent-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--pink);
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+    .agent-card .channels {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .agent-card .label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.7rem;
+      margin-bottom: 0.2rem;
+    }
+    .agent-card p { font-size: 0.87rem; margin: 0; color: var(--text); }
+
+    /* ── Rollout Timeline ──────────────────────────────────── */
+    .phases { display: flex; flex-direction: column; gap: 1rem; margin: 1.25rem 0; }
+    .phase {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .phase-label {
+      background: #2a1018;
+      color: var(--pink);
+      padding: 1.2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .phase-label .version {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: block;
+    }
+    .phase-label .timing {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.6);
+      margin-top: 0.3rem;
+      font-weight: 500;
+    }
+    .phase-body { padding: 1.1rem 1.3rem; }
+    .phase-body h4 { margin-top: 0; font-size: 0.93rem; color: var(--pink); }
+    .phase-body p { font-size: 0.87rem; margin-bottom: 0.4rem; }
+    .phase-metric {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--pink);
+      background: var(--accent-lt);
+      padding: 0.35rem 0.7rem;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+
+    /* ── Cycle Diagram ─────────────────────────────────────── */
+    .cycle-diagram {
+      margin: 0.5rem 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .cycle-row-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+      opacity: 0.6;
+      margin-bottom: 0.5rem;
+    }
+    .cycle-row-label-bottom {
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+      text-align: right;
+    }
+    .cycle-row {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+    .cycle-node {
+      flex: 1;
+      background: #170b0f;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      text-align: center;
+    }
+    .cycle-node-human {
+      border-color: #5a1a2a;
+    }
+    .cycle-node-publish {
+      border-color: var(--pink);
+      border-top-width: 2px;
+    }
+    .cycle-node-repo {
+      border-color: var(--pink);
+      border-top-width: 2px;
+    }
+    .cycle-num {
+      font-size: 0.62rem;
+      color: var(--pink);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      opacity: 0.7;
+    }
+    .cycle-node strong {
+      font-size: 0.78rem;
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    .cycle-node span {
+      font-size: 0.68rem;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+    .cycle-arr {
+      flex-shrink: 0;
+      width: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .cycle-connectors {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+    }
+    .cycle-conn-left,
+    .cycle-conn-right {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .cycle-conn-arrow {
+      color: var(--pink);
+      font-size: 0.9rem;
+    }
+    .cycle-row-reverse {
+      /* visually right-to-left via numbered steps, no CSS reverse needed */
+    }
+
+    /* ── Code Blocks ───────────────────────────────────────── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.2rem 1.4rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+      color: #e8d0d8;
+    }
+    code {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+      font-size: 0.85em;
+      background: var(--code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      color: var(--pink);
+    }
+    pre code { background: none; padding: 0; font-size: inherit; }
+
+    /* ── Section Divider ───────────────────────────────────── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* ── Tags ──────────────────────────────────────────────── */
+    .tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-right: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    footer {
+      background: var(--bg-off);
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ── Appendix Specific ─────────────────────────────────── */
+    .appendix-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink);
+      background: var(--accent-lt);
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      margin-right: 0.5rem;
+    }
+    .governance-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      margin: 1rem 0;
+    }
+    .gov-item {
+      background: var(--bg-off);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.9rem 1rem;
+      font-size: 0.87rem;
+    }
+    .gov-item strong {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    /* ── Dashboard Cards (inside cover-right) ──────────────── */
+    .dash-card {
+      background: #170b0f;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.3rem;
+    }
+    .dash-card-split {
+      display: flex;
+      flex-direction: column;
+    }
+    .dash-split-top { flex: 1; }
+    .dash-split-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1rem 0;
+    }
+    .dash-split-bottom { flex: 1; }
+    .dash-card-header {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0.9rem;
+    }
+    .dash-card-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .dash-card-sub {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+    .dash-metrics-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .dash-metric-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .dash-metric-label {
+      font-size: 0.65rem;
+      color: var(--muted);
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+    .dash-metric-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--pink);
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+    }
+    .mini-bars {
+      width: 100%;
+      height: 28px;
+      display: block;
+    }
+    .mini-line {
+      width: 100%;
+      height: 36px;
+      display: block;
+      margin-top: 0.5rem;
+    }
+    .dash-donut-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .donut-chart {
+      width: 110px;
+      height: 110px;
+      flex-shrink: 0;
+    }
+    .donut-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .donut-leg-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .donut-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dash-big-metric {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--pink);
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+    }
+    .dash-big-unit {
+      font-size: 1.1rem;
+      font-weight: 500;
+      opacity: 0.7;
+    }
+    .dash-metric-green {
+      color: #c8f0b4;
+    }
+    .dash-flag-bar-wrap {
+      margin-top: 0.6rem;
+    }
+    .dash-flag-bar-track {
+      height: 5px;
+      background: #2a0f18;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .dash-flag-bar-fill {
+      height: 100%;
+      background: #c8f0b4;
+      border-radius: 3px;
+    }
+    .dash-flag-bar-label {
+      font-size: 0.67rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+      display: block;
+    }
+
+    /* ── Short Version layout ──────────────────────────────── */
+    .short-version-wrap {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 2rem;
+      align-items: center;
+    }
+    .short-version-text { display: flex; flex-direction: column; }
+    .short-version-chart {
+      background: #170b0f;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 0.75rem 0.5rem;
+      height: 300px;
+    }
+
+    /* ── Chart bar interactions ────────────────────────────── */
+    .chart-bar {
+      cursor: pointer;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s;
+      transform-box: fill-box;
+      transform-origin: bottom center;
+    }
+    .chart-bar:hover {
+      transform: translateY(-6px);
+      opacity: 0.85;
+    }
+    .chart-tooltip {
+      position: fixed;
+      background: #1e0d14;
+      border: 1px solid var(--pink);
+      color: var(--pink);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.3rem 0.65rem;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      white-space: nowrap;
+      z-index: 100;
+    }
+    .chart-tooltip.visible { opacity: 1; }
+
+    /* ── Accordion ─────────────────────────────────────────── */
+    .accordion {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+      overflow: hidden;
+    }
+    .accordion-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 1.1rem;
+      background: var(--bg-off);
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .accordion-trigger:hover { background: #1e0d14; }
+    .accordion-trigger[aria-expanded="true"] { background: #1e0d14; }
+    .accordion-chevron {
+      color: var(--pink);
+      font-size: 0.8rem;
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+      margin-left: 1rem;
+    }
+    .accordion-trigger[aria-expanded="true"] .accordion-chevron {
+      transform: rotate(90deg);
+    }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.25s ease;
+      padding: 0 1.1rem;
+    }
+    .accordion-body.open {
+      max-height: 2000px;
+      padding: 1rem 1.1rem 1.1rem;
+    }
+
+    /* ── Print ─────────────────────────────────────────────── */
+    @page { margin: 1.5cm 2cm; }
+
+    @media print {
+      /* Force all background colours and images to print */
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+      /* Cover: own page, no bottom margin */
+      .cover { page-break-after: always; margin-bottom: 0; }
+
+      /* TOC: own page */
+      .toc { page-break-after: always; }
+
+      /* Keep small blocks intact — no mid-element breaks */
+      .agent-card     { page-break-inside: avoid; }
+      .phase          { page-break-inside: avoid; }
+      .callout        { page-break-inside: avoid; }
+      .gov-item       { page-break-inside: avoid; }
+      pre             { page-break-inside: avoid; }
+
+      /* Diagrams can break between the two if needed */
+      .diagram-section{ page-break-inside: auto; }
+
+      /* Each major section starts on a fresh page */
+      .section { page-break-before: always; }
+
+      /* Except the very first section right after TOC */
+      .section:first-of-type { page-break-before: auto; }
+
+      /* Prevent orphaned headings separated from their content */
+      h2, h3, h4 { page-break-after: avoid; }
+
+      /* Remove elements that don't belong in print */
+      footer { display: none; }
+
+      /* Tighten typography slightly for A4 */
+      body  { font-size: 12px; line-height: 1.6; }
+      h2    { font-size: 1.15rem; }
+      h3    { font-size: 1rem; }
+
+      /* Remove padding added for screen layout */
+      .page-wrap, .content { padding-left: 0; padding-right: 0; }
+
+      /* TOC links — no underline, correct colour */
+      .toc a { color: var(--text) !important; text-decoration: none; }
+    }
+
+    @media (max-width: 900px) {
+      .cover-inner { grid-template-columns: 1fr; }
+      .cover-card-left, .cover-card-right { display: none; }
+    }
+    @media (max-width: 600px) {
+      .cover h1 { font-size: 1.7rem; }
+      .agent-grid { grid-template-columns: 1fr; }
+      .phase { grid-template-columns: 1fr; }
+      .phase-label { padding: 0.8rem 1rem; flex-direction: row; gap: 0.8rem; align-items: center; justify-content: flex-start; }
+      .governance-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ COVER ══════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-inner">
+
+    <!-- Left card: Content Velocity -->
+    <div class="dash-card cover-card-left">
+      <div class="dash-card-header">
+        <span class="dash-card-label">Content Velocity</span>
+        <span class="dash-card-sub">per week / channel</span>
+      </div>
+      <div class="dash-metrics-row">
+        <div class="dash-metric-item">
+          <div class="dash-metric-label">Paid Ads</div>
+          <div class="dash-metric-value">14</div>
+          <svg class="mini-bars" viewBox="0 0 60 28" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0"  y="20" width="5" height="8"  fill="#6b1a2a" rx="1"/>
+            <rect x="7"  y="16" width="5" height="12" fill="#6b1a2a" rx="1"/>
+            <rect x="14" y="18" width="5" height="10" fill="#6b1a2a" rx="1"/>
+            <rect x="21" y="12" width="5" height="16" fill="#a83248" rx="1"/>
+            <rect x="28" y="14" width="5" height="14" fill="#a83248" rx="1"/>
+            <rect x="35" y="8"  width="5" height="20" fill="#f0a8b4" rx="1"/>
+            <rect x="42" y="10" width="5" height="18" fill="#f0a8b4" rx="1"/>
+            <rect x="49" y="4"  width="5" height="24" fill="#f0a8b4" rx="1"/>
+          </svg>
+        </div>
+        <div class="dash-metric-item">
+          <div class="dash-metric-label">Email</div>
+          <div class="dash-metric-value">9</div>
+          <svg class="mini-bars" viewBox="0 0 60 28" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0"  y="22" width="5" height="6"  fill="#6b1a2a" rx="1"/>
+            <rect x="7"  y="18" width="5" height="10" fill="#6b1a2a" rx="1"/>
+            <rect x="14" y="20" width="5" height="8"  fill="#6b1a2a" rx="1"/>
+            <rect x="21" y="14" width="5" height="14" fill="#a83248" rx="1"/>
+            <rect x="28" y="16" width="5" height="12" fill="#a83248" rx="1"/>
+            <rect x="35" y="10" width="5" height="18" fill="#f0a8b4" rx="1"/>
+            <rect x="42" y="12" width="5" height="16" fill="#f0a8b4" rx="1"/>
+            <rect x="49" y="6"  width="5" height="22" fill="#f0a8b4" rx="1"/>
+          </svg>
+        </div>
+        <div class="dash-metric-item">
+          <div class="dash-metric-label">Social</div>
+          <div class="dash-metric-value">22</div>
+          <svg class="mini-bars" viewBox="0 0 60 28" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0"  y="18" width="5" height="10" fill="#6b1a2a" rx="1"/>
+            <rect x="7"  y="14" width="5" height="14" fill="#6b1a2a" rx="1"/>
+            <rect x="14" y="16" width="5" height="12" fill="#6b1a2a" rx="1"/>
+            <rect x="21" y="10" width="5" height="18" fill="#a83248" rx="1"/>
+            <rect x="28" y="8"  width="5" height="20" fill="#a83248" rx="1"/>
+            <rect x="35" y="4"  width="5" height="24" fill="#f0a8b4" rx="1"/>
+            <rect x="42" y="6"  width="5" height="22" fill="#f0a8b4" rx="1"/>
+            <rect x="49" y="2"  width="5" height="26" fill="#f0a8b4" rx="1"/>
+          </svg>
+        </div>
+        <div class="dash-metric-item">
+          <div class="dash-metric-label">SEO</div>
+          <div class="dash-metric-value">6</div>
+          <svg class="mini-bars" viewBox="0 0 60 28" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0"  y="24" width="5" height="4"  fill="#6b1a2a" rx="1"/>
+            <rect x="7"  y="20" width="5" height="8"  fill="#6b1a2a" rx="1"/>
+            <rect x="14" y="22" width="5" height="6"  fill="#6b1a2a" rx="1"/>
+            <rect x="21" y="16" width="5" height="12" fill="#a83248" rx="1"/>
+            <rect x="28" y="18" width="5" height="10" fill="#a83248" rx="1"/>
+            <rect x="35" y="12" width="5" height="16" fill="#f0a8b4" rx="1"/>
+            <rect x="42" y="14" width="5" height="14" fill="#f0a8b4" rx="1"/>
+            <rect x="49" y="8"  width="5" height="20" fill="#f0a8b4" rx="1"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center: cover text -->
+    <div class="cover-center">
+      <div class="cover-label">Marketing AI Operator: Application Case</div>
+      <h1>AI-Driven Marketing Stack<br>for Montrose</h1>
+      <p class="cover-sub">A production design for a centralized context repository, governed agent workflows, and a validated feedback loop that compounds over time.</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><strong>Prepared for</strong>Montrose / Marketing AI Operator Role</div>
+        <div class="cover-meta-item"><strong>By</strong>Gustav Wallin</div>
+        <div class="cover-meta-item"><strong>Format</strong>Case Design + Architecture</div>
+      </div>
+    </div>
+
+    <!-- Right card: QA Pass Rate + CTR/Compliance -->
+    <div class="dash-card cover-card-right dash-card-split">
+      <div class="dash-split-top">
+        <div class="dash-card-header">
+          <span class="dash-card-label">QA Pass Rate</span>
+          <span class="dash-card-sub">first review · v2 target</span>
+        </div>
+        <div class="dash-donut-wrap">
+          <svg class="donut-chart" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#2a0f18" stroke-width="14"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#f0a8b4" stroke-width="14"
+              stroke-dasharray="289 44" stroke-dashoffset="83" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#e8507a" stroke-width="14"
+              stroke-dasharray="20 312" stroke-dashoffset="103" stroke-linecap="round"/>
+            <text x="60" y="55" text-anchor="middle" fill="#f0a8b4" font-size="22" font-weight="700" font-family="Inter,sans-serif">87%</text>
+            <text x="60" y="72" text-anchor="middle" fill="#9a8085" font-size="9" font-family="Inter,sans-serif">target &gt;80%</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="donut-leg-item"><span class="donut-dot" style="background:#f0a8b4"></span>Approved</div>
+            <div class="donut-leg-item"><span class="donut-dot" style="background:#e8507a"></span>Revision</div>
+            <div class="donut-leg-item"><span class="donut-dot" style="background:#2a0f18"></span>Rejected</div>
+          </div>
+        </div>
+      </div>
+      <div class="dash-split-divider"></div>
+      <div class="dash-split-bottom">
+        <div class="dash-card-header">
+          <span class="dash-card-label">Compliance Flag Rate</span>
+          <span class="dash-card-sub">auto-detected · target &lt;5%</span>
+        </div>
+        <div class="dash-big-metric dash-metric-green">2,3<span class="dash-big-unit">%</span></div>
+        <div class="dash-flag-bar-wrap">
+          <div class="dash-flag-bar-track">
+            <div class="dash-flag-bar-fill" style="width: 46%"></div>
+          </div>
+          <span class="dash-flag-bar-label">2,3% av 5% threshold</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /cover-inner -->
+</div><!-- /cover -->
+
+<!-- ════════════════════════════════════ TOC ═══════════════════════════════════ -->
+<div class="toc page-wrap">
+  <div class="toc-label">Contents</div>
+  <ol>
+    <li><a href="#short-version">Short Version</a></li>
+    <li><a href="#problem">The Problem: Disconnected Tools Don't Build a System</a></li>
+    <li><a href="#repo">The Strategic Center: The Context Repository</a></li>
+    <li><a href="#architecture">The Architecture: Three Layers</a></li>
+    <li><a href="#diagram">The Content Production Cycle</a></li>
+    <li><a href="#feedback">How the Feedback Loop Improves the System</a></li>
+    <li><a href="#montrose">Why This Design Fits Montrose</a></li>
+    <li><a href="#takeaway">Final Takeaway</a></li>
+    <li><a href="#appendix">Appendix: Schema, Contracts, Governance, Measurement</a></li>
+  </ol>
+</div>
+
+<!-- ══════════════════════════════ MAIN CONTENT ════════════════════════════════ -->
+<div class="content">
+
+  <!-- 0. Short Version -->
+  <div class="section" id="short-version">
+    <h2><span class="section-num">00</span>Short Version</h2>
+    <div class="short-version-wrap">
+      <div class="short-version-text">
+        <p>This document describes an AI-driven marketing stack built around a centralized context repository that every agent reads from and every validated learning writes back to.</p>
+        <p>The stack consists of specialized agents such as: Paid Ads, Organic Social, Email, and SEO/Content (more can of course be added). Each agent is triggered by a campaign brief and each constrained by the same compliance rules, brand voice, and ICP data. No agent publishes anything without human review. No insight updates the repository without human validation.</p>
+        <p>The result is a system that does not just produce content faster. It gets more accurate over time. Each campaign cycle sharpens the repository. Each sharpened repository improves the next generation. For a regulated financial services company like Montrose, this means higher output volume, consistent brand voice, and compliance managed at the architecture level.</p>
+      </div>
+      <div class="short-version-chart">
+        <svg viewBox="0 0 220 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+          <!-- Y axis label -->
+          <text x="10" y="105" fill="#9a8085" font-size="8" font-family="Inter,sans-serif"
+            transform="rotate(-90,10,105)" text-anchor="middle" letter-spacing="0.05em">SUCCESS</text>
+
+          <!-- Y axis line -->
+          <line x1="32" y1="10" x2="32" y2="155" stroke="#331520" stroke-width="1"/>
+          <!-- X axis line -->
+          <line x1="32" y1="155" x2="215" y2="155" stroke="#331520" stroke-width="1"/>
+
+          <!-- Y axis ticks -->
+          <line x1="29" y1="155" x2="32" y2="155" stroke="#331520" stroke-width="1"/>
+          <text x="27" y="158" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="end">0</text>
+          <line x1="29" y1="107" x2="32" y2="107" stroke="#331520" stroke-width="1"/>
+          <text x="27" y="110" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="end">50</text>
+          <line x1="29" y1="59" x2="32" y2="59" stroke="#331520" stroke-width="1"/>
+          <text x="27" y="62" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="end">100</text>
+
+          <!-- Gridlines -->
+          <line x1="32" y1="107" x2="215" y2="107" stroke="#331520" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <line x1="32" y1="59"  x2="215" y2="59"  stroke="#331520" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+          <!-- Bar 1 -->
+          <rect class="chart-bar" data-value="58" x="40"  y="100" width="26" height="55" fill="#3a3040" rx="3"/>
+          <text x="53"  y="168" fill="#9a8085" font-size="7.5" font-family="Inter,sans-serif" text-anchor="middle">1</text>
+
+          <!-- Bar 2 -->
+          <rect class="chart-bar" data-value="42" x="75"  y="115" width="26" height="40" fill="#3a3040" rx="3"/>
+          <text x="88"  y="168" fill="#9a8085" font-size="7.5" font-family="Inter,sans-serif" text-anchor="middle">2</text>
+
+          <!-- Bar 3 -->
+          <rect class="chart-bar" data-value="65" x="110" y="93"  width="26" height="62" fill="#3a3040" rx="3"/>
+          <text x="123" y="168" fill="#9a8085" font-size="7.5" font-family="Inter,sans-serif" text-anchor="middle">3</text>
+
+          <!-- Bar 4 -->
+          <rect class="chart-bar" data-value="50" x="145" y="107" width="26" height="48" fill="#3a3040" rx="3"/>
+          <text x="158" y="168" fill="#9a8085" font-size="7.5" font-family="Inter,sans-serif" text-anchor="middle">4</text>
+
+          <!-- Bar 5: My Application -->
+          <rect class="chart-bar chart-bar-highlight" data-value="100" x="180" y="59" width="26" height="96" fill="#f0a8b4" rx="3"/>
+          <text x="193" y="168" fill="#f0a8b4" font-size="6.5" font-family="Inter,sans-serif" text-anchor="middle" font-weight="600">My</text>
+          <text x="193" y="177" fill="#f0a8b4" font-size="6.5" font-family="Inter,sans-serif" text-anchor="middle" font-weight="600">Application</text>
+
+          <!-- X axis label -->
+          <text x="123" y="192" fill="#9a8085" font-size="8" font-family="Inter,sans-serif"
+            text-anchor="middle" letter-spacing="0.05em">APPLICATION</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. The Problem -->
+  <div class="section" id="problem">
+    <h2><span class="section-num">01</span>The Problem: Disconnected Tools Don't Build a System</h2>
+    <p>Most marketing teams that adopt AI end up with the same structural problem. A copywriter uses ChatGPT with a loose, undocumented prompt. A social manager runs a different tool with no prompt structure at all. An ads specialist maintains personal templates in a private document. The result is higher output volume without higher consistency. The brand says slightly different things across channels. Approved claims get paraphrased in ways nobody has reviewed. In a regulated industry, that gap between what was approved and what actually got published is where compliance risk lives. For a financial services company like Montrose, where every public claim carries regulatory weight and approved language is non-negotiable, that gap is not an abstract concern. It is a liability.</p>
+    <div class="callout">The solution is a shared knowledge layer: a full stack marketing system that uses a context repository that every tool reads from, writes back to, and gets evaluated against.</div>
+  </div>
+
+  <!-- 2. Context Repository -->
+  <div class="section" id="repo">
+    <h2><span class="section-num">02</span>The Strategic Center: The Context Repository</h2>
+    <p>The context repository is the single most important architectural decision in this stack. It is not a brand guidelines PDF or a shared folder. It is a <strong>structured, versioned knowledge base</strong> that functions as the collective memory for every agent in the system.</p>
+    <p><strong>How it works in practice:</strong> When an agent is triggered (say, to produce a LinkedIn post), it doesn't start from a blank prompt. It first reads the relevant sections of the repository: who is the target audience, what tone does the brand use, what has performed well in this channel before, what claims are approved. It generates output based on that context. After the content runs and performance data comes in, validated learnings are written back into the repository, so the next time that agent runs, it starts from a stronger foundation.</p>
+    <p>This is how the system compounds. Each campaign cycle, the repository gets sharper. What worked gets encoded. What failed gets flagged. Over time, it becomes a precise operational record of what the brand actually is and what actually drives results.</p>
+
+    <p><strong>What the repository contains:</strong></p>
+    <ul style="margin: 0.75rem 0 1rem 1.25rem; font-size: 0.95rem; line-height: 2;">
+      <li><strong>Brand voice</strong> -tone, vocabulary, forbidden phrases, and annotated examples of on-brand vs. off-brand writing</li>
+      <li><strong>ICPs &amp; personas</strong> (Ideal Customer Profiles) -who the target customers are, what problems they have, and what language resonates with them</li>
+      <li><strong>Product USPs &amp; approved claims</strong> (Unique Selling Points) -what Montrose can credibly say, with evidence, and what it cannot</li>
+      <li><strong>Compliance rules</strong> -regulatory constraints and required disclaimers, always current</li>
+      <li><strong>Offer positioning</strong> -active campaigns, current CTAs (calls to action), seasonal context</li>
+      <li><strong>Channel playbooks</strong> -how each platform works, format specs, cadence rules</li>
+      <li><strong>Prompt modules</strong> -reusable, versioned prompt components that agents pull from per task type</li>
+      <li><strong>Campaign learnings &amp; performance insights</strong> -a growing record of what has worked, by segment, channel, and message type</li>
+    </ul>
+  </div>
+
+  <!-- 3. Architecture -->
+  <div class="section" id="architecture">
+    <h2><span class="section-num">03</span>The Architecture: Three Layers</h2>
+
+    <h3>Layer 1: Context Repository</h3>
+    <p>The persistent memory layer. Every section is versioned, has a clear owner, and a defined review cadence. Content enters through a validation gate to ensure only accurate, validated learnings update the collective memory, though not automatically. Content enters only after human review. This is the only layer that no agent can write to on its own.</p>
+
+    <h3>Layer 2: Agent Layer</h3>
+    <p>Four specialized agents handle content production. Each one has a defined scope, reads the relevant sections from the repository before generating anything, and routes all output through a human QA (quality assurance) checkpoint before content leaves the system.</p>
+    <p>Agents do not communicate with each other directly. This is a deliberate design decision. All inter-agent communication happens through the repository in a hub-and-spoke model. If agents were to communicate peer-to-peer, you'd get compounding effects that are difficult to track, measure and debug. Instead: if the Paid Ads Agent surfaces a valuable insight, it gets validated, written to the repository, and read by the Email Agent on its next run. The loop takes slightly longer, but every output remains fully auditable and the system stays controllable.</p>
+    <p>Each agent is powered by an AI API (such as Claude or GPT). The operator triggers a specific agent by submitting a brief: a short, structured prompt that defines the task. For an email campaign, a brief might read: <em>"Write a nurture email for ICP_01 (first-time investor), objective: drive to fund landing page, tone: educational."</em> The agent combines that brief with everything it reads from the repository (ICP profiles, approved claims, active offer, previous campaign learnings) and generates a complete draft. The brief determines which agent runs and what the output targets; the repository determines the quality and consistency of what gets produced.</p>
+
+    <div class="agent-grid">
+      <div class="agent-card">
+        <h4>Paid Ads Agent</h4>
+        <div class="channels">Meta · Google Ads · LinkedIn</div>
+        <p>Takes a campaign brief and writes the actual ad copy. Before generating anything, it scrapes the repository for:</p>
+        <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
+          <li>What the target ICP cares about and responds to</li>
+          <li>What offer is currently live and how it's positioned</li>
+          <li>What claims are approved -and which phrases are forbidden</li>
+        </ul>
+        <p style="margin:0;">Output: 3–5 headline variants, 2–3 body text versions, and 2 CTA options, within platform character limits, compliance-flagged, and tagged by segment and format. Lands in QA ready for a human to review and push live.</p>
+      </div>
+      <div class="agent-card">
+        <h4>Organic Social Agent</h4>
+        <div class="channels">LinkedIn · Instagram</div>
+        <p>Writes platform-native posts: a LinkedIn thought leadership piece, an Instagram caption, a short-form hook. Before writing, it scrapes the repository for:</p>
+        <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
+          <li>What angles have already been published, to avoid repetition</li>
+          <li>What has performed well with the target segment</li>
+          <li>Channel playbook rules for tone, format, and cadence</li>
+        </ul>
+        <p style="margin:0;">Output: post copy adapted per platform, suggested hashtags, and a recommended publish window.</p>
+      </div>
+      <div class="agent-card">
+        <h4>Email Agent</h4>
+        <div class="channels">Nurture · Activation · Re-engagement</div>
+        <p>Writes full email sequences (subject line, preview text, and body) for a defined segment and objective. Before writing, it scrapes the repository for:</p>
+        <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
+          <li>Persona data -pain points, language patterns, decision triggers per ICP</li>
+          <li>Active offer and how it maps to that segment's priorities</li>
+          <li>Previous campaign learnings for this sequence type</li>
+        </ul>
+        <p style="margin:0;">A nurture sequence for a first-time investor looks different from a re-engagement email to a dormant lead, even if the underlying offer is the same. Output includes 2–3 subject line variants and segment tags that connect back to CRM (Customer Relationship Management) targeting.</p>
+      </div>
+      <div class="agent-card">
+        <h4>SEO / Content Agent</h4>
+        <div class="channels">Blog · Landing Pages · Articles</div>
+        <p>Writes longer-form content: a blog post on pension savings, a landing page for a specific fund, a guide for first-time investors. Before writing, it scrapes the repository for:</p>
+        <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
+          <li>ICP pain points and the questions they're actually searching for</li>
+          <li>Product USPs and approved claims relevant to the topic</li>
+          <li>Brand voice guidelines to ensure consistency across the stack</li>
+        </ul>
+        <p style="margin:0;">This agent requires more editorial input than the others. Long-form content needs a clearer brief and closer human review before publishing.</p>
+      </div>
+    </div>
+
+    <h3>Layer 3: Distribution &amp; Feedback</h3>
+    <p>The execution and learning layer. Approved content moves from QA to scheduling and publishing. Performance data flows in from all active platforms. The feedback loop closes through a <strong>governed validation process</strong>: insights that clear a threshold are written back to the repository; insights that don't are logged for later review. A/B testing can be layered on top of this foundation to further optimize performance, systematically testing hypotheses across copy, format, and segment before encoding winners into the repository.</p>
+    <p>Two governance checkpoints are non-negotiable: the human QA gate before content publishes, and the human validation gate before insights update the repository.</p>
+  </div>
+
+  <!-- 4. Diagram -->
+  <div class="section" id="diagram">
+    <h2><span class="section-num">04</span>The Content Production Cycle</h2>
+    <p style="font-size:0.92rem; margin-bottom: 1.25rem;">From campaign brief to published content to validated learning — and back again.</p>
+
+    <div class="cycle-diagram">
+
+      <!-- Row label: Production -->
+      <div class="cycle-row-label">Production</div>
+
+      <!-- Top row: left → right -->
+      <div class="cycle-row">
+        <div class="cycle-node">
+          <span class="cycle-num">01</span>
+          <strong>Brief / Prompt</strong>
+          <span>segment · objective · format</span>
+        </div>
+        <div class="cycle-arr">→</div>
+        <div class="cycle-node">
+          <span class="cycle-num">02</span>
+          <strong>Context Read</strong>
+          <span>from Repository</span>
+        </div>
+        <div class="cycle-arr">→</div>
+        <div class="cycle-node">
+          <span class="cycle-num">03</span>
+          <strong>Agent Generation</strong>
+          <span>brief + context → draft</span>
+        </div>
+        <div class="cycle-arr">→</div>
+        <div class="cycle-node cycle-node-human">
+          <span class="cycle-num">04</span>
+          <strong>Human QA</strong>
+          <span>approve or reject</span>
+        </div>
+        <div class="cycle-arr">→</div>
+        <div class="cycle-node cycle-node-publish">
+          <span class="cycle-num">05</span>
+          <strong>Publish</strong>
+          <span>all channels</span>
+        </div>
+      </div>
+
+      <!-- Vertical connectors -->
+      <div class="cycle-connectors">
+        <div class="cycle-conn-left">
+          <span class="cycle-conn-arrow">↑</span>
+          <span class="cycle-conn-label">sharper context</span>
+        </div>
+        <div class="cycle-conn-right">
+          <span class="cycle-conn-label">live content</span>
+          <span class="cycle-conn-arrow">↓</span>
+        </div>
+      </div>
+
+      <!-- Bottom row: right → left -->
+      <div class="cycle-row cycle-row-reverse">
+        <div class="cycle-node cycle-node-repo">
+          <span class="cycle-num">08</span>
+          <strong>Repository Update</strong>
+          <span>validated learnings encoded</span>
+        </div>
+        <div class="cycle-arr">←</div>
+        <div class="cycle-node cycle-node-human">
+          <span class="cycle-num">07</span>
+          <strong>Human Validation</strong>
+          <span>validate or flag insight</span>
+        </div>
+        <div class="cycle-arr">←</div>
+        <div class="cycle-node">
+          <span class="cycle-num">06</span>
+          <strong>Performance Measurement</strong>
+          <span>CTR · open rate · CPL</span>
+        </div>
+      </div>
+
+      <!-- Row label: Feedback -->
+      <div class="cycle-row-label cycle-row-label-bottom">Feedback</div>
+
+    </div>
+
+    <p style="font-size:0.85rem; color: var(--muted); margin-top: 1rem;">Each loop makes the next one more accurate. Step 08 feeds directly back into step 02 — the repository update sharpens every subsequent generation.</p>
+  </div>
+
+  <!-- 5. Feedback Loop -->
+  <div class="section" id="feedback">
+    <h2><span class="section-num">05</span>How the Feedback Loop Improves the System</h2>
+    <p>This is where most AI marketing implementations stop short. They generate content well but don't build institutional memory.</p>
+    <p>In this system: aggregate performance data is ingested from ad platforms, email tools, and web analytics. No personal data enters the loop, only campaign-level metrics. Examples: cost-per-lead by ICP segment from Meta Ads, click-through rate by content angle from LinkedIn, open rate and CTR by subject line variant from email sequences. Patterns that clear validation thresholds are extracted as structured learnings and written back to the repository. Prompt modules that underperform are flagged and revised. Campaign learnings accumulate as a queryable, operational asset.</p>
+    <div class="callout">Each cycle, the system is sharper than the last. What works can be implemented into the repository to increase efficiency and accuracy. What fails gets flagged and reviewed. Every agent benefits from the full performance history of every other agent.</div>  </div>
+
+  <!-- 6. Montrose Fit -->
+  <div class="section" id="montrose">
+    <h2><span class="section-num">06</span>Why This Design Fits Montrose</h2>
+
+    <h3>Scale without headcount</h3>
+    <p>The leverage this architecture provides is not incremental. It enables coordinated output across four content channels simultaneously, each reading from the same strategic context, and gets better the longer it runs.</p>
+
+    <h3>Compliance is architectural, not manual</h3>
+    <p>Financial services content carries regulatory risk that generic AI tools do not handle structurally. In this stack, compliance rules live in the repository and are read by every agent before every generation. Human QA reviews against the same rules before publishing. The risk is managed at the architecture level, not by an individual's memory of what is and isn't allowed under Finansinspektionen guidelines.</p>
+
+    <h3>Brand voice is still forming</h3>
+    <p>At two years old, Montrose is still discovering what its most effective messaging looks like. The context repository is designed to capture and encode those learnings as they emerge. As performance data accumulates, the brand voice section gets sharper, not vaguer. The system becomes a record of what the brand actually is, not what a static guidelines document says it should be.</p>
+
+    <h3>DNB Carnegie context</h3>
+    <p>As part of a larger group, Montrose needs to maintain brand independence while operating within enterprise constraints. A governed repository with version control and clear ownership makes that governance explicit, auditable, and easy to hand off or report on.</p>
+  </div>
+
+
+  <!-- 8. Takeaway -->
+  <div class="section" id="takeaway">
+    <h2><span class="section-num">07</span>Final Takeaway</h2>
+    <p>The right question to ask is how do we build a marketing stack in which the system and every tool gets better every time it runs?</p>
+    <p>My proposed solution is a centralized context repository with governed agents and a validated feedback loop. This ensures the created content can be tailored with efficient outreach and at the same time the system is improving continuously.</p>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- 9. Appendix -->
+  <div class="section" id="appendix">
+    <h2><span class="section-num">A</span>Appendix</h2>
+
+    <!-- A.1 -->
+    <div class="accordion">
+      <button class="accordion-trigger" aria-expanded="false">
+        <span><span class="appendix-tag">A.1</span> Sample Repository Schema</span>
+        <span class="accordion-chevron">▸</span>
+      </button>
+      <div class="accordion-body">
+        <p style="font-size:0.87rem; color:var(--muted); margin-bottom:0.75rem;">Minimal top-level structure. Each section is independently versioned. The <code>meta</code> block on every section enables auditing and rollback.</p>
+        <pre>{
+  "meta": {
+    "schema_version": "1.0",
+    "owner": "Marketing AI Operator",
+    "last_updated": "2026-03-16",
+    "review_cadence": {
+      "brand_voice": "quarterly",
+      "icps": "monthly",
+      "compliance": "on-change + quarterly",
+      "offer_positioning": "per-campaign",
+      "campaign_learnings": "weekly"
+    }
+  },
+  "brand_voice": {
+    "version": "1.2",
+    "tone": ["confident", "direct", "accessible"],
+    "register": "professional without jargon",
+    "vocabulary": {
+      "preferred": ["clarity", "ownership", "long-term", "transparent"],
+      "forbidden": ["guaranteed returns", "risk-free", "outperform"]
+    },
+    "example_pairs": [{
+      "context": "describing fund performance",
+      "avoid": "Our fund has historically outperformed the market.",
+      "use": "Our fund has delivered consistent returns in the top quartile of its category over three years."
+    }]
+  },
+  "compliance": {
+    "jurisdiction": "SE",
+    "regulator": "Finansinspektionen",
+    "required_disclaimers": {
+      "investment_content": "Historisk avkastning är ingen garanti för framtida avkastning.",
+      "risk_content": "Det finns alltid en risk att du inte får tillbaka det kapital du investerat."
+    },
+    "forbidden_claim_patterns": ["guaranteed *", "risk-free *", "always outperform *"]
+  }
+}</pre>
+      </div>
+    </div>
+
+    <!-- A.2 -->
+    <div class="accordion">
+      <button class="accordion-trigger" aria-expanded="false">
+        <span><span class="appendix-tag">A.2</span> Agent Input / Output Contract (Paid Ads Agent)</span>
+        <span class="accordion-chevron">▸</span>
+      </button>
+      <div class="accordion-body">
+        <pre>INPUT
+  campaign_id    string    // links to active offer in offer_positioning
+  icp_id         string    // target ICP from repository
+  channel        enum      // META | GOOGLE | LINKEDIN
+  format         enum      // feed | story | search | display | carousel
+  objective      enum      // awareness | consideration | conversion
+  constraints    object    // char limits, tone overrides, deadline
+
+CONTEXT READ  (resolved from repository before generation)
+  brand_voice[current_version]
+  icps[icp_id]
+  compliance.forbidden_claim_patterns
+  compliance.required_disclaimers
+  offer_positioning[campaign_id]
+  channel_playbooks[channel][format]
+  prompt_modules.paid_ads[latest_version]
+  campaign_learnings[icp_id][channel]   // last 90 days
+
+OUTPUT
+  headlines         string[]   // 3–5 variants, within char limit
+  body_copy         string[]   // 2–3 variants
+  cta               string[]   // 2 variants
+  compliance_flags  string[]   // auto-detected issues for QA review
+  metadata
+    icp_id                  string
+    channel                 string
+    prompt_module_version   string
+    repository_snapshot     string   // version hash at generation time
+    generated_at            timestamp</pre>
+        <p style="font-size:0.85rem; color:var(--muted); margin-top:0.75rem;">The <code>repository_snapshot</code> field records exactly which version of the repository was used. If a compliance issue surfaces post-publication, you can reconstruct exactly what context the agent had.</p>
+      </div>
+    </div>
+
+    <!-- A.3 -->
+    <div class="accordion">
+      <button class="accordion-trigger" aria-expanded="false">
+        <span><span class="appendix-tag">A.3</span> Governance Model</span>
+        <span class="accordion-chevron">▸</span>
+      </button>
+      <div class="accordion-body">
+        <div class="governance-grid">
+          <div class="gov-item"><strong>Repository Ownership</strong>Marketing AI Operator, sole write authority</div>
+          <div class="gov-item"><strong>Read Access</strong>All agents (automated, logged)</div>
+          <div class="gov-item"><strong>Write Access</strong>Operator only, via validated feedback process</div>
+          <div class="gov-item"><strong>Version Control</strong>Git-based; every change requires a commit message with rationale</div>
+          <div class="gov-item"><strong>QA Checkpoint</strong>Human review required for 100% of content before publication</div>
+          <div class="gov-item"><strong>Compliance Review</strong>Additional sign-off for all paid and regulated content</div>
+          <div class="gov-item"><strong>Feedback Write-Back</strong>Insights must clear validation gate, not automatic</div>
+          <div class="gov-item"><strong>Incident Protocol</strong>Any compliance breach triggers review of relevant repo sections and prompt modules</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A.4 -->
+    <div class="accordion">
+      <button class="accordion-trigger" aria-expanded="false">
+        <span><span class="appendix-tag">A.4</span> Measurement Model</span>
+        <span class="accordion-chevron">▸</span>
+      </button>
+      <div class="accordion-body">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Metric</th><th>Definition</th><th>Target / Signal</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Content velocity</td><td>Approved pieces per week, per channel</td><td>Baseline → 3× by end of v2</td></tr>
+              <tr><td>QA pass rate</td><td>% of agent drafts approved at first review</td><td>&gt;80% within 6 weeks</td></tr>
+              <tr><td>Compliance flag rate</td><td>% of outputs with auto-detected compliance issues</td><td>&lt;5%; any breach triggers repo review</td></tr>
+              <tr><td>Brand consistency score</td><td>Quarterly human audit vs. brand voice section</td><td>&gt;90% pass rate</td></tr>
+              <tr><td>Downstream CTR delta</td><td>CTR vs. pre-system baseline, by channel and ICP</td><td>Positive trend by v2</td></tr>
+              <tr><td>Repository utilization</td><td>% of sections actively read per weekly cycle</td><td>All sections read weekly by v3</td></tr>
+              <tr><td>Learning velocity</td><td>New validated insights written per campaign cycle</td><td>Increasing trend</td></tr>
+              <tr><td>Prompt module age</td><td>How recently each module was reviewed or updated</td><td>No module &gt;90 days without explicit sign-off</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:0.85rem; color:var(--muted); margin-top:0.75rem;">Watch QA pass rate closely in v1. If drafts are frequently rejected, the failure mode is almost always in the repository: brand voice underspecified, ICP pain points too generic, or prompt modules not covering the use case. Fix the repository, not the agent.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<!-- ══════════════════════════════════ FOOTER ══════════════════════════════════ -->
+<footer>
+  <p>AI-Driven Marketing Stack for Montrose &nbsp;·&nbsp; Marketing AI Operator Case &nbsp;·&nbsp; March 2026</p>
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#2a1018',
+      primaryTextColor: '#f0a8b4',
+      primaryBorderColor: '#331520',
+      lineColor: '#9a8085',
+      secondaryColor: '#1a0c10',
+      tertiaryColor: '#0e0609',
+      fontSize: '13px'
+    },
+    flowchart: {
+      rankSpacing: 60,
+      nodeSpacing: 40,
+      curve: 'basis'
+    }
+  });
+</script>
+
+<div class="chart-tooltip" id="chartTooltip"></div>
+
+<script>
+  // Chart bar tooltips + jump
+  var tooltip = document.getElementById('chartTooltip');
+  document.querySelectorAll('.chart-bar').forEach(function(bar) {
+    bar.addEventListener('mouseenter', function(e) {
+      tooltip.textContent = 'Success: ' + this.dataset.value + '%';
+      tooltip.classList.add('visible');
+    });
+    bar.addEventListener('mousemove', function(e) {
+      tooltip.style.left = (e.clientX + 14) + 'px';
+      tooltip.style.top  = (e.clientY - 32) + 'px';
+    });
+    bar.addEventListener('mouseleave', function() {
+      tooltip.classList.remove('visible');
+    });
+  });
+
+  document.querySelectorAll('.accordion-trigger').forEach(function(trigger) {
+    trigger.addEventListener('click', function() {
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      var body = this.nextElementSibling;
+      this.setAttribute('aria-expanded', !expanded);
+      body.classList.toggle('open', !expanded);
+    });
+  });
+</script>
+</body>
+</html>
