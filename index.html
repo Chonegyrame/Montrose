@@ -50,11 +50,11 @@
       border-bottom: 1px solid var(--border);
     }
     .cover-inner {
-      max-width: 1140px;
+      max-width: 900px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 240px 1fr 240px;
-      gap: 1.5rem;
+      grid-template-columns: 1fr 240px;
+      gap: 2rem;
       align-items: center;
     }
     .cover-center { display: flex; flex-direction: column; }
@@ -74,6 +74,7 @@
       line-height: 1.2;
       margin-bottom: 1rem;
       letter-spacing: -0.02em;
+      color: #f0a8b4;
     }
     .cover-sub {
       font-size: 1.1rem;
@@ -87,7 +88,6 @@
       gap: 2rem;
       margin-top: 2.5rem;
       padding-top: 2rem;
-      border-top: 1px solid rgba(255,255,255,0.15);
     }
     .cover-meta-item { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
     .cover-meta-item strong { display: block; color: rgba(255,255,255,0.85); font-size: 0.9rem; margin-bottom: 0.15rem; }
@@ -102,14 +102,29 @@
       margin: 0 auto 3rem;
       max-width: 860px;
     }
+    .toc-trigger {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      margin-bottom: 0.9rem;
+    }
+    .toc-trigger:hover { transform: translateY(-3px); transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1); }
     .toc-label {
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.9rem;
+      color: var(--pink);
     }
+    .toc-chevron { color: var(--pink); font-size: 0.8rem; transition: transform 0.25s ease; }
+    .toc-trigger[aria-expanded="false"] .toc-chevron { transform: rotate(-90deg); }
+    .toc-body { overflow: hidden; max-height: 0; transition: max-height 0.35s ease; }
+    .toc-body.open { max-height: 400px; }
     .toc ol { padding-left: 1.2rem; }
     .toc li { margin-bottom: 0.3rem; }
     .toc a {
@@ -200,6 +215,7 @@
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 1rem;
       margin: 1.25rem 0;
+      align-items: start;
     }
     .agent-card {
       border: 1px solid var(--border);
@@ -207,7 +223,27 @@
       border-radius: 8px;
       padding: 1.2rem 1.3rem;
       background: var(--bg-off);
+      cursor: pointer;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
     }
+    .agent-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .agent-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .agent-card-chevron {
+      font-size: 0.75rem;
+      color: var(--pink);
+      transition: transform 0.25s ease;
+      margin-left: 0.5rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .agent-card.open .agent-card-chevron { transform: rotate(90deg); }
     .agent-card h4 {
       font-size: 0.95rem;
       font-weight: 700;
@@ -218,7 +254,7 @@
     .agent-card .channels {
       font-size: 0.75rem;
       color: var(--muted);
-      margin-bottom: 0.8rem;
+      margin-bottom: 0;
       font-weight: 500;
       letter-spacing: 0.02em;
     }
@@ -232,6 +268,16 @@
       margin-bottom: 0.2rem;
     }
     .agent-card p { font-size: 0.87rem; margin: 0; color: var(--text); }
+    .agent-card-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.25s ease;
+      padding-top: 0;
+    }
+    .agent-card-body.open {
+      max-height: 800px;
+      padding-top: 0.9rem;
+    }
 
     /* ── Rollout Timeline ──────────────────────────────────── */
     .phases { display: flex; flex-direction: column; gap: 1rem; margin: 1.25rem 0; }
@@ -314,6 +360,11 @@
       flex-direction: column;
       gap: 0.2rem;
       text-align: center;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
+    }
+    .cycle-node:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
     }
     .cycle-node-human {
       border-color: #5a1a2a;
@@ -753,8 +804,20 @@
 <div class="cover">
   <div class="cover-inner">
 
-    <!-- Left card: Content Velocity -->
-    <div class="dash-card cover-card-left">
+    <!-- Center: cover text -->
+    <div class="cover-center">
+      <div class="cover-label">Marketing AI Operator: Application Case</div>
+      <h1>AI-Driven Marketing Stack<br>for Montrose</h1>
+      <p class="cover-sub">A production design for a centralized context repository, governed agent workflows, and a validated feedback loop that compounds over time.</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><strong>Prepared for</strong>Montrose / Marketing AI Operator Role</div>
+        <div class="cover-meta-item"><strong>By</strong>Gustav Wallin</div>
+        <div class="cover-meta-item"><strong>Format</strong>Case Design + Architecture</div>
+      </div>
+    </div>
+
+    <!-- Right card: Content Velocity -->
+    <div class="dash-card cover-card-right">
       <div class="dash-card-header">
         <span class="dash-card-label">Content Velocity</span>
         <span class="dash-card-sub">per week / channel</span>
@@ -819,75 +882,28 @@
       </div>
     </div>
 
-    <!-- Center: cover text -->
-    <div class="cover-center">
-      <div class="cover-label">Marketing AI Operator: Application Case</div>
-      <h1>AI-Driven Marketing Stack<br>for Montrose</h1>
-      <p class="cover-sub">A production design for a centralized context repository, governed agent workflows, and a validated feedback loop that compounds over time.</p>
-      <div class="cover-meta">
-        <div class="cover-meta-item"><strong>Prepared for</strong>Montrose / Marketing AI Operator Role</div>
-        <div class="cover-meta-item"><strong>By</strong>Gustav Wallin</div>
-        <div class="cover-meta-item"><strong>Format</strong>Case Design + Architecture</div>
-      </div>
-    </div>
-
-    <!-- Right card: QA Pass Rate + CTR/Compliance -->
-    <div class="dash-card cover-card-right dash-card-split">
-      <div class="dash-split-top">
-        <div class="dash-card-header">
-          <span class="dash-card-label">QA Pass Rate</span>
-          <span class="dash-card-sub">first review · v2 target</span>
-        </div>
-        <div class="dash-donut-wrap">
-          <svg class="donut-chart" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="60" cy="60" r="46" fill="none" stroke="#2a0f18" stroke-width="14"/>
-            <circle cx="60" cy="60" r="46" fill="none" stroke="#f0a8b4" stroke-width="14"
-              stroke-dasharray="289 44" stroke-dashoffset="83" stroke-linecap="round"/>
-            <circle cx="60" cy="60" r="46" fill="none" stroke="#e8507a" stroke-width="14"
-              stroke-dasharray="20 312" stroke-dashoffset="103" stroke-linecap="round"/>
-            <text x="60" y="55" text-anchor="middle" fill="#f0a8b4" font-size="22" font-weight="700" font-family="Inter,sans-serif">87%</text>
-            <text x="60" y="72" text-anchor="middle" fill="#9a8085" font-size="9" font-family="Inter,sans-serif">target &gt;80%</text>
-          </svg>
-          <div class="donut-legend">
-            <div class="donut-leg-item"><span class="donut-dot" style="background:#f0a8b4"></span>Approved</div>
-            <div class="donut-leg-item"><span class="donut-dot" style="background:#e8507a"></span>Revision</div>
-            <div class="donut-leg-item"><span class="donut-dot" style="background:#2a0f18"></span>Rejected</div>
-          </div>
-        </div>
-      </div>
-      <div class="dash-split-divider"></div>
-      <div class="dash-split-bottom">
-        <div class="dash-card-header">
-          <span class="dash-card-label">Compliance Flag Rate</span>
-          <span class="dash-card-sub">auto-detected · target &lt;5%</span>
-        </div>
-        <div class="dash-big-metric dash-metric-green">2,3<span class="dash-big-unit">%</span></div>
-        <div class="dash-flag-bar-wrap">
-          <div class="dash-flag-bar-track">
-            <div class="dash-flag-bar-fill" style="width: 46%"></div>
-          </div>
-          <span class="dash-flag-bar-label">2,3% av 5% threshold</span>
-        </div>
-      </div>
-    </div>
-
   </div><!-- /cover-inner -->
 </div><!-- /cover -->
 
 <!-- ════════════════════════════════════ TOC ═══════════════════════════════════ -->
 <div class="toc page-wrap">
-  <div class="toc-label">Contents</div>
-  <ol>
-    <li><a href="#short-version">Short Version</a></li>
-    <li><a href="#problem">The Problem: Disconnected Tools Don't Build a System</a></li>
-    <li><a href="#repo">The Strategic Center: The Context Repository</a></li>
-    <li><a href="#architecture">The Architecture: Three Layers</a></li>
-    <li><a href="#diagram">The Content Production Cycle</a></li>
-    <li><a href="#feedback">How the Feedback Loop Improves the System</a></li>
-    <li><a href="#montrose">Why This Design Fits Montrose</a></li>
-    <li><a href="#takeaway">Final Takeaway</a></li>
-    <li><a href="#appendix">Appendix: Schema, Contracts, Governance, Measurement</a></li>
-  </ol>
+  <button class="toc-trigger" aria-expanded="false">
+    <span class="toc-label">Contents</span>
+    <span class="toc-chevron">▼</span>
+  </button>
+  <div class="toc-body">
+    <ol>
+      <li><a href="#short-version">Short Version</a></li>
+      <li><a href="#problem">The Problem: Disconnected Tools Don't Build a System</a></li>
+      <li><a href="#repo">The Solution: A Context Repository</a></li>
+      <li><a href="#architecture">The Architecture: Three Layers</a></li>
+      <li><a href="#diagram">The Content Production Cycle</a></li>
+      <li><a href="#feedback">How the Feedback Loop Improves the System</a></li>
+      <li><a href="#montrose">Why This Design Fits Montrose</a></li>
+      <li><a href="#takeaway">Final Takeaway</a></li>
+      <li><a href="#appendix">Appendix: Schema, Contracts, Governance, Measurement</a></li>
+    </ol>
+  </div>
 </div>
 
 <!-- ══════════════════════════════ MAIN CONTENT ════════════════════════════════ -->
@@ -895,7 +911,7 @@
 
   <!-- 0. Short Version -->
   <div class="section" id="short-version">
-    <h2><span class="section-num">00</span>Short Version</h2>
+    <h2><span class="section-num">01</span>Short Version</h2>
     <div class="short-version-wrap">
       <div class="short-version-text">
         <p>This document describes an AI-driven marketing stack built around a centralized context repository that every agent reads from and every validated learning writes back to.</p>
@@ -943,8 +959,8 @@
 
           <!-- Bar 5: My Application -->
           <rect class="chart-bar chart-bar-highlight" data-value="100" x="180" y="59" width="26" height="96" fill="#f0a8b4" rx="3"/>
-          <text x="193" y="168" fill="#f0a8b4" font-size="6.5" font-family="Inter,sans-serif" text-anchor="middle" font-weight="600">My</text>
-          <text x="193" y="177" fill="#f0a8b4" font-size="6.5" font-family="Inter,sans-serif" text-anchor="middle" font-weight="600">Application</text>
+          <text x="193" y="168" fill="#f0a8b4" font-size="6.5" font-family="Inter,sans-serif" text-anchor="middle" font-weight="600">This</text>
+          <text x="193" y="177" fill="#f0a8b4" font-size="6.5" font-family="Inter,sans-serif" text-anchor="middle" font-weight="600">Case</text>
 
           <!-- X axis label -->
           <text x="123" y="192" fill="#9a8085" font-size="8" font-family="Inter,sans-serif"
@@ -956,34 +972,39 @@
 
   <!-- 1. The Problem -->
   <div class="section" id="problem">
-    <h2><span class="section-num">01</span>The Problem: Disconnected Tools Don't Build a System</h2>
-    <p>Most marketing teams that adopt AI end up with the same structural problem. A copywriter uses ChatGPT with a loose, undocumented prompt. A social manager runs a different tool with no prompt structure at all. An ads specialist maintains personal templates in a private document. The result is higher output volume without higher consistency. The brand says slightly different things across channels. Approved claims get paraphrased in ways nobody has reviewed. In a regulated industry, that gap between what was approved and what actually got published is where compliance risk lives. For a financial services company like Montrose, where every public claim carries regulatory weight and approved language is non-negotiable, that gap is not an abstract concern. It is a liability.</p>
+    <h2><span class="section-num">02</span>The Problem: Disconnected Tools Don't Build a System</h2>
+    <p>Most marketing teams that adopt AI end up with the same structural problem. A copywriter uses ChatGPT with a loose, undocumented prompt. A social manager runs a different tool with no prompt structure at all. An ads specialist maintains personal templates in a private document. The result is higher output volume without higher consistency, and without consistency there is no feedback loop worth measuring. The brand says slightly different things across channels, and because no shared system tracks what works, the same mistakes repeat. Approved claims get paraphrased in ways nobody has reviewed. In financial services, where every public claim carries regulatory risk, that is a compliance problem.</p>
     <div class="callout">The solution is a shared knowledge layer: a full stack marketing system that uses a context repository that every tool reads from, writes back to, and gets evaluated against.</div>
   </div>
 
   <!-- 2. Context Repository -->
   <div class="section" id="repo">
-    <h2><span class="section-num">02</span>The Strategic Center: The Context Repository</h2>
+    <h2><span class="section-num">03</span>The Solution: A Context Repository</h2>
     <p>The context repository is the single most important architectural decision in this stack. It is not a brand guidelines PDF or a shared folder. It is a <strong>structured, versioned knowledge base</strong> that functions as the collective memory for every agent in the system.</p>
     <p><strong>How it works in practice:</strong> When an agent is triggered (say, to produce a LinkedIn post), it doesn't start from a blank prompt. It first reads the relevant sections of the repository: who is the target audience, what tone does the brand use, what has performed well in this channel before, what claims are approved. It generates output based on that context. After the content runs and performance data comes in, validated learnings are written back into the repository, so the next time that agent runs, it starts from a stronger foundation.</p>
     <p>This is how the system compounds. Each campaign cycle, the repository gets sharper. What worked gets encoded. What failed gets flagged. Over time, it becomes a precise operational record of what the brand actually is and what actually drives results.</p>
 
-    <p><strong>What the repository contains:</strong></p>
-    <ul style="margin: 0.75rem 0 1rem 1.25rem; font-size: 0.95rem; line-height: 2;">
-      <li><strong>Brand voice</strong> -tone, vocabulary, forbidden phrases, and annotated examples of on-brand vs. off-brand writing</li>
-      <li><strong>ICPs &amp; personas</strong> (Ideal Customer Profiles) -who the target customers are, what problems they have, and what language resonates with them</li>
-      <li><strong>Product USPs &amp; approved claims</strong> (Unique Selling Points) -what Montrose can credibly say, with evidence, and what it cannot</li>
-      <li><strong>Compliance rules</strong> -regulatory constraints and required disclaimers, always current</li>
-      <li><strong>Offer positioning</strong> -active campaigns, current CTAs (calls to action), seasonal context</li>
-      <li><strong>Channel playbooks</strong> -how each platform works, format specs, cadence rules</li>
-      <li><strong>Prompt modules</strong> -reusable, versioned prompt components that agents pull from per task type</li>
-      <li><strong>Campaign learnings &amp; performance insights</strong> -a growing record of what has worked, by segment, channel, and message type</li>
-    </ul>
+    <button class="accordion-trigger" aria-expanded="false" style="margin-top:0.75rem; border:1px solid var(--border); border-top:3px solid var(--pink); border-radius:8px; padding:1.2rem 1.3rem; background:var(--bg-off); transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s ease;">
+      <span style="font-size:0.95rem; font-weight:700; color:var(--pink);">What the repository contains</span>
+      <span class="accordion-chevron" style="color:var(--pink);">▶</span>
+    </button>
+    <div class="accordion-body" style="border:1px solid var(--border); border-top:none; border-radius:0 0 8px 8px; background:var(--bg-off);">
+      <ul style="margin: 0.25rem 0 0 1.25rem; font-size: 0.95rem; line-height: 2;">
+        <li><strong>Brand voice</strong> -tone, vocabulary, forbidden phrases, and annotated examples of on-brand vs. off-brand writing</li>
+        <li><strong>ICPs &amp; personas</strong> (Ideal Customer Profiles) -who the target customers are, what problems they have, and what language resonates with them</li>
+        <li><strong>Product USPs &amp; approved claims</strong> (Unique Selling Points) -what Montrose can credibly say, with evidence, and what it cannot</li>
+        <li><strong>Compliance rules</strong> -regulatory constraints and required disclaimers, always current</li>
+        <li><strong>Offer positioning</strong> -active campaigns, current CTAs (calls to action), seasonal context</li>
+        <li><strong>Channel playbooks</strong> -how each platform works, format specs, cadence rules</li>
+        <li><strong>Prompt modules</strong> -reusable, versioned prompt components that agents pull from per task type</li>
+        <li><strong>Campaign learnings &amp; performance insights</strong> -a growing record of what has worked, by segment, channel, and message type</li>
+      </ul>
+    </div>
   </div>
 
   <!-- 3. Architecture -->
   <div class="section" id="architecture">
-    <h2><span class="section-num">03</span>The Architecture: Three Layers</h2>
+    <h2><span class="section-num">04</span>The Architecture: Three Layers</h2>
 
     <h3>Layer 1: Context Repository</h3>
     <p>The persistent memory layer. Every section is versioned, has a clear owner, and a defined review cadence. Content enters through a validation gate to ensure only accurate, validated learnings update the collective memory, though not automatically. Content enters only after human review. This is the only layer that no agent can write to on its own.</p>
@@ -993,51 +1014,87 @@
     <p>Agents do not communicate with each other directly. This is a deliberate design decision. All inter-agent communication happens through the repository in a hub-and-spoke model. If agents were to communicate peer-to-peer, you'd get compounding effects that are difficult to track, measure and debug. Instead: if the Paid Ads Agent surfaces a valuable insight, it gets validated, written to the repository, and read by the Email Agent on its next run. The loop takes slightly longer, but every output remains fully auditable and the system stays controllable.</p>
     <p>Each agent is powered by an AI API (such as Claude or GPT). The operator triggers a specific agent by submitting a brief: a short, structured prompt that defines the task. For an email campaign, a brief might read: <em>"Write a nurture email for ICP_01 (first-time investor), objective: drive to fund landing page, tone: educational."</em> The agent combines that brief with everything it reads from the repository (ICP profiles, approved claims, active offer, previous campaign learnings) and generates a complete draft. The brief determines which agent runs and what the output targets; the repository determines the quality and consistency of what gets produced.</p>
 
+    <p style="font-size:0.8rem; color:var(--pink); margin:0.5rem 0 0.75rem; letter-spacing:0.04em;">click on these &nbsp;↓</p>
+
     <div class="agent-grid">
       <div class="agent-card">
-        <h4>Paid Ads Agent</h4>
-        <div class="channels">Meta · Google Ads · LinkedIn</div>
-        <p>Takes a campaign brief and writes the actual ad copy. Before generating anything, it scrapes the repository for:</p>
-        <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
-          <li>What the target ICP cares about and responds to</li>
-          <li>What offer is currently live and how it's positioned</li>
-          <li>What claims are approved -and which phrases are forbidden</li>
-        </ul>
-        <p style="margin:0;">Output: 3–5 headline variants, 2–3 body text versions, and 2 CTA options, within platform character limits, compliance-flagged, and tagged by segment and format. Lands in QA ready for a human to review and push live.</p>
+        <div class="agent-card-header">
+          <div>
+            <h4>Paid Ads Agent</h4>
+            <div class="channels">Meta · Google Ads · LinkedIn</div>
+          </div>
+          <span class="agent-card-chevron">▶</span>
+        </div>
+        <div class="agent-card-body">
+          <p>Takes a campaign brief and writes the actual ad copy. Before generating anything, it scrapes the repository for:</p>
+          <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
+            <li>What the target ICP cares about and responds to</li>
+            <li>What offer is currently live and how it's positioned</li>
+            <li>What claims are approved -and which phrases are forbidden</li>
+          </ul>
+          <p style="margin:0;">Output: 3–5 headline variants, 2–3 body text versions, and 2 CTA options, within platform character limits, compliance-flagged, and tagged by segment and format. Lands in QA ready for a human to review and push live.</p>
+        </div>
       </div>
       <div class="agent-card">
-        <h4>Organic Social Agent</h4>
-        <div class="channels">LinkedIn · Instagram</div>
-        <p>Writes platform-native posts: a LinkedIn thought leadership piece, an Instagram caption, a short-form hook. Before writing, it scrapes the repository for:</p>
-        <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
-          <li>What angles have already been published, to avoid repetition</li>
-          <li>What has performed well with the target segment</li>
-          <li>Channel playbook rules for tone, format, and cadence</li>
-        </ul>
-        <p style="margin:0;">Output: post copy adapted per platform, suggested hashtags, and a recommended publish window.</p>
+        <div class="agent-card-header">
+          <div>
+            <h4>Organic Social Agent</h4>
+            <div class="channels">LinkedIn · Instagram</div>
+          </div>
+          <span class="agent-card-chevron">▶</span>
+        </div>
+        <div class="agent-card-body">
+          <p>Writes platform-native posts: a LinkedIn thought leadership piece, an Instagram caption, a short-form hook. Before writing, it scrapes the repository for:</p>
+          <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
+            <li>What angles have already been published, to avoid repetition</li>
+            <li>What has performed well with the target segment</li>
+            <li>Channel playbook rules for tone, format, and cadence</li>
+          </ul>
+          <p style="margin:0;">Output: post copy adapted per platform, suggested hashtags, and a recommended publish window.</p>
+        </div>
       </div>
       <div class="agent-card">
-        <h4>Email Agent</h4>
-        <div class="channels">Nurture · Activation · Re-engagement</div>
-        <p>Writes full email sequences (subject line, preview text, and body) for a defined segment and objective. Before writing, it scrapes the repository for:</p>
-        <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
-          <li>Persona data -pain points, language patterns, decision triggers per ICP</li>
-          <li>Active offer and how it maps to that segment's priorities</li>
-          <li>Previous campaign learnings for this sequence type</li>
-        </ul>
-        <p style="margin:0;">A nurture sequence for a first-time investor looks different from a re-engagement email to a dormant lead, even if the underlying offer is the same. Output includes 2–3 subject line variants and segment tags that connect back to CRM (Customer Relationship Management) targeting.</p>
+        <div class="agent-card-header">
+          <div>
+            <h4>Email Agent</h4>
+            <div class="channels">Nurture · Activation · Re-engagement</div>
+          </div>
+          <span class="agent-card-chevron">▶</span>
+        </div>
+        <div class="agent-card-body">
+          <p>Writes full email sequences (subject line, preview text, and body) for a defined segment and objective. Before writing, it scrapes the repository for:</p>
+          <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
+            <li>Persona data -pain points, language patterns, decision triggers per ICP</li>
+            <li>Active offer and how it maps to that segment's priorities</li>
+            <li>Previous campaign learnings for this sequence type</li>
+          </ul>
+          <p style="margin:0;">A nurture sequence for a first-time investor looks different from a re-engagement email to a dormant lead, even if the underlying offer is the same. Output includes 2–3 subject line variants and segment tags that connect back to CRM (Customer Relationship Management) targeting.</p>
+        </div>
       </div>
       <div class="agent-card">
-        <h4>SEO / Content Agent</h4>
-        <div class="channels">Blog · Landing Pages · Articles</div>
-        <p>Writes longer-form content: a blog post on pension savings, a landing page for a specific fund, a guide for first-time investors. Before writing, it scrapes the repository for:</p>
-        <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
-          <li>ICP pain points and the questions they're actually searching for</li>
-          <li>Product USPs and approved claims relevant to the topic</li>
-          <li>Brand voice guidelines to ensure consistency across the stack</li>
-        </ul>
-        <p style="margin:0;">This agent requires more editorial input than the others. Long-form content needs a clearer brief and closer human review before publishing.</p>
+        <div class="agent-card-header">
+          <div>
+            <h4>SEO / Content Agent</h4>
+            <div class="channels">Blog · Landing Pages · Articles</div>
+          </div>
+          <span class="agent-card-chevron">▶</span>
+        </div>
+        <div class="agent-card-body">
+          <p>Writes longer-form content: a blog post on pension savings, a landing page for a specific fund, a guide for first-time investors. Before writing, it scrapes the repository for:</p>
+          <ul style="font-size:0.85rem; margin: 0.4rem 0 0.6rem 1.1rem; line-height:1.8;">
+            <li>ICP pain points and the questions they're actually searching for</li>
+            <li>Product USPs and approved claims relevant to the topic</li>
+            <li>Brand voice guidelines to ensure consistency across the stack</li>
+          </ul>
+          <p style="margin:0;">This agent requires more editorial input than the others. Long-form content needs a clearer brief and closer human review before publishing.</p>
+        </div>
       </div>
+    </div>
+
+    <div style="margin: 1.5rem 0; padding: 1rem 1.2rem; background: var(--navy-soft); border-left: 3px solid var(--border); border-radius: 6px;">
+      <p style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin:0 0 0.5rem;">Token Economy</p>
+      <p style="margin:0 0 0.6rem;">Agents do not read the full repository on every run. Each agent pulls only the sections relevant to its task: the Paid Ads Agent does not need the SEO prompt modules, and the Email Agent does not need the channel playbook for Instagram. Repository sections are tagged by agent relevance, and overall this keeps per-generation token costs predictable and avoids hitting context window limits as the repository grows over time.</p>
+      <p style="margin:0;">Prompt modules are versioned partly for quality reasons and partly for cost reasons, a tighter, well-structured module generates better output in fewer tokens than a loose prompt. As the system matures, prompt efficiency could become a metric alongside other measurements such as QA pass rate and content velocity.</p>
     </div>
 
     <h3>Layer 3: Distribution &amp; Feedback</h3>
@@ -1047,7 +1104,7 @@
 
   <!-- 4. Diagram -->
   <div class="section" id="diagram">
-    <h2><span class="section-num">04</span>The Content Production Cycle</h2>
+    <h2><span class="section-num">05</span>The Content Production Cycle</h2>
     <p style="font-size:0.92rem; margin-bottom: 1.25rem;">From campaign brief to published content to validated learning — and back again.</p>
 
     <div class="cycle-diagram">
@@ -1131,34 +1188,74 @@
 
   <!-- 5. Feedback Loop -->
   <div class="section" id="feedback">
-    <h2><span class="section-num">05</span>How the Feedback Loop Improves the System</h2>
-    <p>This is where most AI marketing implementations stop short. They generate content well but don't build institutional memory.</p>
-    <p>In this system: aggregate performance data is ingested from ad platforms, email tools, and web analytics. No personal data enters the loop, only campaign-level metrics. Examples: cost-per-lead by ICP segment from Meta Ads, click-through rate by content angle from LinkedIn, open rate and CTR by subject line variant from email sequences. Patterns that clear validation thresholds are extracted as structured learnings and written back to the repository. Prompt modules that underperform are flagged and revised. Campaign learnings accumulate as a queryable, operational asset.</p>
+    <h2><span class="section-num">06</span>How the Feedback Loop Improves the System</h2>
+
+    <div style="display:flex; gap:1.5rem; align-items:flex-start; flex-wrap:wrap; margin-bottom:0.75rem;">
+
+      <!-- Text -->
+      <div style="flex:1; min-width:220px;">
+        <p style="margin-top:0;">This is where most AI marketing implementations stop short. They generate content well but don't build institutional memory.</p>
+        <p style="margin-bottom:0;">In this system: aggregate performance data is ingested from ad platforms, email tools, and web analytics. No personal data enters the loop, only campaign-level metrics. Examples: cost-per-lead by ICP segment from Meta Ads, click-through rate by content angle from LinkedIn, open rate and CTR by subject line variant from email sequences. Patterns that clear validation thresholds are extracted as structured learnings and written back to the repository. Prompt modules that underperform are flagged and revised. Campaign learnings accumulate as a queryable, operational asset.</p>
+      </div>
+
+      <!-- QA Pass Rate line chart -->
+      <div style="flex:0 0 340px;">
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <span class="dash-card-label">QA Pass Rate</span>
+          <span class="dash-card-sub">weeks 1–8 · target &gt;80%</span>
+        </div>
+        <svg viewBox="0 0 270 155" xmlns="http://www.w3.org/2000/svg" style="width:100%; margin-top:0.1rem;">
+          <line x1="30" y1="15" x2="30" y2="130" stroke="#331520" stroke-width="1"/>
+          <line x1="30" y1="130" x2="260" y2="130" stroke="#331520" stroke-width="1"/>
+          <text x="25" y="133" fill="#9a8085" font-size="8" font-family="Inter,sans-serif" text-anchor="end">0%</text>
+          <text x="25" y="84" fill="#9a8085" font-size="8" font-family="Inter,sans-serif" text-anchor="end">40%</text>
+          <text x="25" y="38" fill="#9a8085" font-size="8" font-family="Inter,sans-serif" text-anchor="end">80%</text>
+          <line x1="30" y1="38" x2="260" y2="38" stroke="#f0a8b4" stroke-width="1" stroke-dasharray="4 3" opacity="0.35"/>
+          <text x="262" y="41" fill="#f0a8b4" font-size="7" font-family="Inter,sans-serif" opacity="0.6">80%</text>
+          <polygon points="40,78 72,70 104,63 136,58 168,50 200,44 232,37 252,30 252,130 40,130" fill="#f0a8b4" opacity="0.07"/>
+          <polyline points="40,78 72,70 104,63 136,58 168,50 200,44 232,37 252,30" fill="none" stroke="#f0a8b4" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="40" cy="78" r="2.5" fill="#f0a8b4"/>
+          <circle cx="72" cy="70" r="2.5" fill="#f0a8b4"/>
+          <circle cx="104" cy="63" r="2.5" fill="#f0a8b4"/>
+          <circle cx="136" cy="58" r="2.5" fill="#f0a8b4"/>
+          <circle cx="168" cy="50" r="2.5" fill="#f0a8b4"/>
+          <circle cx="200" cy="44" r="2.5" fill="#f0a8b4"/>
+          <circle cx="232" cy="37" r="2.5" fill="#f0a8b4"/>
+          <circle cx="252" cy="30" r="3.5" fill="#f0a8b4"/>
+          <text x="248" y="26" fill="#f0a8b4" font-size="9" font-family="Inter,sans-serif" font-weight="600" text-anchor="middle">87%</text>
+          <text x="40"  y="143" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">Wk 1</text>
+          <text x="72"  y="143" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">2</text>
+          <text x="104" y="143" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">3</text>
+          <text x="136" y="143" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">4</text>
+          <text x="168" y="143" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">5</text>
+          <text x="200" y="143" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">6</text>
+          <text x="232" y="143" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">7</text>
+          <text x="252" y="143" fill="#9a8085" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">8</text>
+        </svg>
+      </div>
+      </div>
+
+    </div>
     <div class="callout">Each cycle, the system is sharper than the last. What works can be implemented into the repository to increase efficiency and accuracy. What fails gets flagged and reviewed. Every agent benefits from the full performance history of every other agent.</div>  </div>
 
   <!-- 6. Montrose Fit -->
   <div class="section" id="montrose">
-    <h2><span class="section-num">06</span>Why This Design Fits Montrose</h2>
+    <h2><span class="section-num">07</span>Why This Design Fits Montrose</h2>
 
-    <h3>Scale without headcount</h3>
-    <p>The leverage this architecture provides is not incremental. It enables coordinated output across four content channels simultaneously, each reading from the same strategic context, and gets better the longer it runs.</p>
-
-    <h3>Compliance is architectural, not manual</h3>
-    <p>Financial services content carries regulatory risk that generic AI tools do not handle structurally. In this stack, compliance rules live in the repository and are read by every agent before every generation. Human QA reviews against the same rules before publishing. The risk is managed at the architecture level, not by an individual's memory of what is and isn't allowed under Finansinspektionen guidelines.</p>
-
-    <h3>Brand voice is still forming</h3>
-    <p>At two years old, Montrose is still discovering what its most effective messaging looks like. The context repository is designed to capture and encode those learnings as they emerge. As performance data accumulates, the brand voice section gets sharper, not vaguer. The system becomes a record of what the brand actually is, not what a static guidelines document says it should be.</p>
-
-    <h3>DNB Carnegie context</h3>
-    <p>As part of a larger group, Montrose needs to maintain brand independence while operating within enterprise constraints. A governed repository with version control and clear ownership makes that governance explicit, auditable, and easy to hand off or report on.</p>
+    <ul style="margin: 0.5rem 0 0 1.25rem; font-size: 0.95rem; line-height: 1.9;">
+      <li><strong>Coordinated output across channels</strong> - Four agents can run simultaneously, each reading from the same strategic context, producing consistent and tailored marketing.</li>
+      <li><strong>Compliance is structural, not manual</strong> - Rules live in the repository and are read before every generation. Human QA reviews against those same rules before publishing.</li>
+      <li><strong>Built to improve</strong> - Every validated learning gets written back to the repository, so each campaign cycle starts from a stronger foundation than the last.</li>
+      <li><strong>Audit-ready by design</strong> - Version control and clear ownership on every repository section makes governance explicit and easy to report on within the DNB Carnegie group structure.</li>
+    </ul>
   </div>
 
 
   <!-- 8. Takeaway -->
   <div class="section" id="takeaway">
-    <h2><span class="section-num">07</span>Final Takeaway</h2>
-    <p>The right question to ask is how do we build a marketing stack in which the system and every tool gets better every time it runs?</p>
-    <p>My proposed solution is a centralized context repository with governed agents and a validated feedback loop. This ensures the created content can be tailored with efficient outreach and at the same time the system is improving continuously.</p>
+    <h2><span class="section-num">08</span>Final Takeaway</h2>
+    <p>This is how I would set up an AI marketing stack that continuously improves and allows Montrose to publish tailored content across channels in an efficient manner. I would like to be the person who builds it.</p>
   </div>
 
   <hr class="section-divider" />
@@ -1351,12 +1448,30 @@ OUTPUT
     });
   });
 
+  var tocTrigger = document.querySelector('.toc-trigger');
+  if (tocTrigger) {
+    tocTrigger.addEventListener('click', function() {
+      var expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      this.nextElementSibling.classList.toggle('open', !expanded);
+    });
+  }
+
   document.querySelectorAll('.accordion-trigger').forEach(function(trigger) {
     trigger.addEventListener('click', function() {
       var expanded = this.getAttribute('aria-expanded') === 'true';
       var body = this.nextElementSibling;
       this.setAttribute('aria-expanded', !expanded);
       body.classList.toggle('open', !expanded);
+    });
+  });
+
+  document.querySelectorAll('.agent-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var body = this.querySelector('.agent-card-body');
+      var isOpen = body.classList.contains('open');
+      body.classList.toggle('open', !isOpen);
+      this.classList.toggle('open', !isOpen);
     });
   });
 </script>
